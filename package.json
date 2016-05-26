@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "b-spline": "^1.0.5",
     "d3": "^3.5.17",
     "jsdom": "^9.2.0",
     "procedural": "^0.1.3",
