@@ -1,5 +1,6 @@
 var procedural = require('procedural');
 var bspline = require('b-spline');
+var utils = require('./utils');
 
 var unilobe_without_basal = procedural('unilobe_without_basal')
   .takes('width')
@@ -133,17 +134,17 @@ var unilobe_without_basal = procedural('unilobe_without_basal')
   })
   // the total chord length of the right lobe
   .provides('D_r', (leaf) => {
-    return chordLength(leaf.ps_r)
+    return utils.chordLength(leaf.ps_r)
   })
   // total chord lenght for the left lobe
   .provides('D_l', (leaf) => {
-    return chordLength(leaf.ps_l);
+    return utils.chordLength(leaf.ps_l);
   })
   // parameters
   .provides('us_r', (leaf) => {
     let us = [0];
     for (var i = 1; i < 3; i++) {
-      const d = distance(leaf.points_r[i], leaf.points_r[i-1]);
+      const d = utils.distance(leaf.points_r[i], leaf.points_r[i-1]);
       const ui = us[i-1] + (d / leaf.D_r);
       us.push(ui);
     }
@@ -152,7 +153,7 @@ var unilobe_without_basal = procedural('unilobe_without_basal')
   .provides('us_l', (leaf) => {
     let us = [0];
     for (var i = 1; i < 3; i++) {
-      const d = distance(leaf.points_l[i], leaf.points_l[i-1]);
+      const d = utils.distance(leaf.points_l[i], leaf.points_l[i-1]);
       const ui = us[i-1] + (d / leaf.D_l);
       us.push(ui);
     }
@@ -204,22 +205,6 @@ var unilobe_without_basal = procedural('unilobe_without_basal')
 
     return sampled_points;
   });
-
-  function distance(p1, p2) {
-    const dx = p1[0] - p2[0];
-    const dy = p1[1] - p2[1];
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-
-  function chordLength(ps) {
-    let D = 0;
-    for (let i = 1; i < ps.length; i++) {
-      const p1 = ps[i];
-      const p2 = ps[i-1];
-      D += distance(p1, p2);
-    }
-    return D;
-  }
 
 
 module.exports = unilobe_without_basal;

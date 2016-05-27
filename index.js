@@ -1,4 +1,3 @@
-var Leaf = require('./src/leaf');
 var d3 = require('d3');
 global.d3 = d3;
 require('d3-grid');
@@ -8,17 +7,15 @@ var fs = require('fs');
 var document = jsdom.jsdom()
 var child_proc = require('child_process');
 
+var DuoLeaf = require('./src/leaf_better');
+var UniLeaf = require('./src/leaf');
 
-//Lets require/import the HTTP module
 var http = require('http');
-
-//Lets define a port we want to listen to
 const PORT=8080;
 
-//We need a function which handles requests and send response
 function handleRequest(request, response){
-  var width = 1440 * 4;
-  var height = 2560 * 4;
+  var width = 1440;
+  var height = 2560;
 
   var svg = d3.select(document.body).append("svg")
       .attr('xmlns', 'http://www.w3.org/2000/svg')
@@ -56,6 +53,8 @@ function handleRequest(request, response){
       return `translate(${[d.x, d.y]})rotate(${Math.random() * 360})`;
     })
     .each((d) => {
+      const duo = (Math.random() > 0.5)
+      const Leaf = (duo) ? UniLeaf : DuoLeaf;
       d.l = Leaf(grid.nodeSize()[0], grid.nodeSize()[1],
                  true, 100, new Date().getTime() + Math.random());
     })
