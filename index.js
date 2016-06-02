@@ -56,7 +56,7 @@ function handleRequest(request, response){
       const duo = (Math.random() > 0.5)
       const Leaf = (duo) ? UniLeaf : DuoLeaf;
       d.l = Leaf(grid.nodeSize()[0], grid.nodeSize()[1],
-                 true, 100, new Date().getTime() + Math.random());
+                 true, 160, new Date().getTime() + Math.random());
     })
 
   leafEnter.append('path')

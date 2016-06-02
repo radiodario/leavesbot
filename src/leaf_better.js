@@ -43,7 +43,7 @@ var leaf = procedural('leaf')
   })
   .provides('y2', (leaf) => {
     const rnd = leaf.getRandGen('y2');
-    return rnd.nextFloat(.0, .9);
+    return rnd.nextFloat(.0, 1);
   })
   // angle from tip to side on right
   .provides('sa', (leaf) => {
